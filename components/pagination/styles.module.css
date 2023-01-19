@@ -1,0 +1,36 @@
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  list-style: none;
+  cursor: pointer;
+}
+
+.pagination li {
+  color: var(--chakra-colors-blue-500);
+}
+
+.pagination li {
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid var(--chakra-colors-blue-500);
+}
+
+.paginationLink {
+  font-weight: bold;
+}
+
+.paginationLinkActive {
+  color: #fff;
+  background: var(--chakra-colors-blue-500);
+}
+
+.paginationLinkActive a {
+  color: #fff;
+}
+
+.paginationLinkDisabled {
+  color: var(--chakra-colors-blue-500);
+  border: 1px solid var(--chakra-colors-blue-500);
+}
