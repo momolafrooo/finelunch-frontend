@@ -2,7 +2,13 @@ import { Box, Button, Flex, Heading, Input, InputGroup, InputLeftElement, useCol
 import React, { ReactNode } from "react";
 import { FiPlusSquare, FiSearch } from "react-icons/fi";
 
-export default function PageHeader() {
+interface Props {
+  onSearch?: React.ChangeEventHandler<HTMLInputElement>;
+  onClickAdd?: React.MouseEventHandler;
+}
+
+export default function PageHeader(props: Props) {
+  const { onSearch, onClickAdd } = props;
   return (
     <Box bg={useColorModeValue("white", "gray.700")} rounded="lg" w="100%" p={4} marginBottom="7">
       <Flex justifyContent="space-between" alignItems="center" mb="4">
@@ -10,6 +16,7 @@ export default function PageHeader() {
           Utilisateurs
         </Heading>
         <Button
+          onClick={onClickAdd}
           bg={"blue.500"}
           color={"white"}
           leftIcon={<FiPlusSquare />}
@@ -24,7 +31,7 @@ export default function PageHeader() {
         <InputLeftElement pointerEvents="none">
           <FiSearch color="gray.200" />
         </InputLeftElement>
-        <Input type="search" placeholder="Recherche..." />
+        <Input type="search" placeholder="Recherche..." onChange={onSearch} />
       </InputGroup>
     </Box>
   );

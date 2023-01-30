@@ -4,10 +4,25 @@ import DashboardLayout from "../../components/dashboard-layout";
 import type { NextPageWithLayout } from "../_app";
 import PageHeader from "../../components/page-header";
 import Table from "../../components/table";
-import { Button, IconButton, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
-import { FiMenu, FiPlusSquare } from "react-icons/fi";
-import ReactPaginate from "react-paginate";
-import Pagination from "../../components/pagination";
+import { Button, IconButton, Menu, MenuButton, MenuItem, MenuList, Stack } from "@chakra-ui/react";
+import { FiMenu } from "react-icons/fi";
+import { useModal } from "../../utils/useModal";
+import { BaseModal } from "../../components/base-modal";
+import { useForm } from "react-hook-form";
+import CustomInput from "../../components/custom-input";
+import * as Yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import CustomSelect from "../../components/custom-select";
+import CustomSwitch from "../../components/custom-switch";
+import CustomCheckbox from "../../components/custom-checkbox";
+import CustomRadio from "../../components/custom-radio";
+import CustomTextArea from "../../components/custom-textarea";
+
+const schema = Yup.object().shape({
+  firstname: Yup.string().required(),
+  lastname: Yup.string().required(),
+  nationality: Yup.string().required(),
+});
 
 const data = [
   {
@@ -55,6 +70,12 @@ const data = [
     status: "active",
     progress: "active",
   },
+];
+
+const options = [
+  { value: "chocolate", label: "Chocolate" },
+  { value: "strawberry", label: "Strawberry" },
+  { value: "vanilla", label: "Vanilla" },
 ];
 
 const Dashboard: NextPageWithLayout = () => {
@@ -114,10 +135,57 @@ const Dashboard: NextPageWithLayout = () => {
     []
   );
 
+  const { showModal, onCloseModal, onShowModal, selectedItem } = useModal();
+
+  const {
+    control,
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<any>({
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmit = (data: any) => console.log(data);
+
   return (
     <>
-      <PageHeader />
+      <PageHeader onClickAdd={onShowModal()} />
       <Table columns={columns} data={data} />
+      {showModal && (
+        <BaseModal title="Modal" isOpen={showModal} onClose={onCloseModal()}>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <CustomInput label={"First name"} placeholder={"First name"} control={control} name={"firstname"} />
+            <CustomInput label={"Last name"} placeholder={"Last name"} name={"lastname"} control={control} />
+            <CustomInput type="date" label={"Date"} placeholder={"Date"} name={"date"} control={control} />
+            <CustomInput type="number" label={"Age"} placeholder={"Age"} name={"age"} control={control} />
+            <CustomTextArea label={"Description"} placeholder={"Description"} name={"description"} control={control} />
+            <CustomSelect
+              label={"Nationalité"}
+              placeholder={"Nationalité"}
+              name={"nationality"}
+              control={control}
+              options={[
+                { value: "Sénégal", label: "Sénégal" },
+                { value: "Gambie", label: "Gambie" },
+                { value: "Ghana", label: "Ghana" },
+                { value: "France", label: "France" },
+              ]}
+            />
+            <CustomSwitch label={"Notif"} name={"notif"} control={control} />
+            <CustomCheckbox label={"Send email"} name={"send"} control={control} />
+            <CustomRadio label={"Recette"} name={"receipt"} control={control} options={options} />
+            <Stack direction="row" justifyContent="flex-end">
+              <Button variant="ghost" onClick={onCloseModal()} mr={3}>
+                Annuler
+              </Button>
+              <Button colorScheme="blue" type="submit">
+                Enregistrer
+              </Button>
+            </Stack>
+          </form>
+        </BaseModal>
+      )}
     </>
   );
 };
