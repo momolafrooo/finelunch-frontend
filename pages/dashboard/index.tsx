@@ -22,6 +22,11 @@ const schema = Yup.object().shape({
   firstname: Yup.string().required(),
   lastname: Yup.string().required(),
   nationality: Yup.string().required(),
+  date: Yup.string().required(),
+  age: Yup.number().required(),
+  description: Yup.string().required(),
+  notif: Yup.boolean().required(),
+  receipt: Yup.string().required(),
 });
 
 const data = [
@@ -144,9 +149,22 @@ const Dashboard: NextPageWithLayout = () => {
     formState: { errors },
   } = useForm<any>({
     resolver: yupResolver(schema),
+    defaultValues: {
+      receipt: "strawberry",
+      notif: true,
+      description: "Magna sed dolor reru",
+      age: 92,
+      date: "1970-05-02",
+      nationality: "Gambie",
+      lastname: "Berger",
+      firstname: "Sonia",
+      send: true,
+    },
   });
 
-  const onSubmit = (data: any) => console.log(data);
+  console.log(errors);
+
+  const onSubmit = (data: any) => console.log(JSON.stringify(data));
 
   return (
     <>

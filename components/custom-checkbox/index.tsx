@@ -17,7 +17,7 @@ const CustomCheckbox = (props: Props) => {
         control={control}
         name={name}
         render={({ field }) => (
-          <Checkbox {...field} defaultChecked>
+          <Checkbox {...field} defaultChecked={field.value}>
             {label}
           </Checkbox>
         )}

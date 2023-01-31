@@ -17,6 +17,10 @@ interface Option {
   label: string;
 }
 
+interface SelectType {
+  isInvalid?: boolean;
+}
+
 const CustomSelect = (props: Props) => {
   const { label, placeholder, options, name, control } = props;
 
@@ -26,13 +30,14 @@ const CustomSelect = (props: Props) => {
       <Controller
         control={control}
         name={name}
-        render={({ field: { onChange }, formState: { errors } }) => (
+        render={({ field: { onChange, value }, formState: { errors } }) => (
           <>
             <StyledSelect
               name={name}
               onChange={(selectedItem: any) => {
                 onChange(selectedItem?.value);
               }}
+              defaultInputValue={value}
               placeholder={placeholder}
               className="basic-single"
               classNamePrefix="select"
@@ -40,6 +45,7 @@ const CustomSelect = (props: Props) => {
               isClearable
               isSearchable
               options={options}
+              isInvalid={!!errors[name]?.message}
             />
             {errors && errors[name] && <Box color="red.500">{errors[name]?.message as string}</Box>}
           </>
@@ -49,16 +55,17 @@ const CustomSelect = (props: Props) => {
   );
 };
 
-const StyledSelect = styled(Select)`
+const StyledSelect = styled(Select)<SelectType>`
   .select__control {
     border-radius: 0.375rem !important;
-    border-color: var(--chakra-colors-chakra-border-color);
+    border-color: ${({ isInvalid }) => (isInvalid ? "#E53E3E" : "var(--chakra-colors-chakra-border-color)")};
   }
 
   .select__control--is-focused {
     z-index: 1 !important;
     border-color: #3182ce !important;
     box-shadow: 0 0 0 1px #3182ce !important;
+    border: ${({ isInvalid }) => (isInvalid ? "2px solid" : "1px solid")};
   }
 `;
 
