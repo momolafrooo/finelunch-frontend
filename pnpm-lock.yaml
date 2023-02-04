@@ -5,6 +5,7 @@ specifiers:
   '@emotion/react': ^11
   '@emotion/styled': ^11
   '@hookform/resolvers': ^2.9.10
+  '@types/js-cookie': ^3.0.2
   '@types/node': 18.7.6
   '@types/nprogress': ^0.2.0
   '@types/react': 18.0.17
@@ -14,6 +15,7 @@ specifiers:
   eslint: 8.22.0
   eslint-config-next: 12.2.5
   framer-motion: ^6
+  js-cookie: ^3.0.1
   next: 12.2.5
   nprogress: ^0.2.0
   react: 18.2.0
@@ -34,6 +36,7 @@ dependencies:
   '@hookform/resolvers': 2.9.10_react-hook-form@7.42.1
   '@types/nprogress': 0.2.0
   framer-motion: 6.5.1_biqbaboplfbrettd7655fr4n2y
+  js-cookie: 3.0.1
   next: 12.2.5_biqbaboplfbrettd7655fr4n2y
   nprogress: 0.2.0
   react: 18.2.0
@@ -47,6 +50,7 @@ dependencies:
   yup: 0.32.11
 
 devDependencies:
+  '@types/js-cookie': 3.0.2
   '@types/node': 18.7.6
   '@types/react': 18.0.17
   '@types/react-dom': 18.0.6
@@ -1652,6 +1656,10 @@ packages:
       hoist-non-react-statics: 3.3.2
     dev: true
 
+  /@types/js-cookie/3.0.2:
+    resolution: {integrity: sha512-6+0ekgfusHftJNYpihfkMu8BWdeHs9EOJuGcSofErjstGPfPGEu9yTu4t460lTzzAMl2cM5zngQJqPMHbbnvYA==}
+    dev: true
+
   /@types/json5/0.0.29:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
     dev: true
@@ -2912,6 +2920,11 @@ packages:
   /isexe/2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
     dev: true
+
+  /js-cookie/3.0.1:
+    resolution: {integrity: sha512-+0rgsUXZu4ncpPxRL+lNEptWMOWl9etvPHc/koSRp6MPwpRYAhmk0dUG00J4bxVV3r9uUzfo24wW0knS07SKSw==}
+    engines: {node: '>=12'}
+    dev: false
 
   /js-tokens/4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}

@@ -1,22 +1,22 @@
 /* eslint-disable react/no-children-prop */
 import { ReactElement, useMemo } from "react";
-import DashboardLayout from "../../components/dashboard-layout";
-import type { NextPageWithLayout } from "../_app";
-import PageHeader from "../../components/page-header";
-import Table from "../../components/table";
+import DashboardLayout from "../../../components/dashboard-layout";
+import type { NextPageWithLayout } from "../../_app";
+import PageHeader from "../../../components/page-header";
+import Table from "../../../components/table";
 import { Button, IconButton, Menu, MenuButton, MenuItem, MenuList, Stack } from "@chakra-ui/react";
 import { FiMenu } from "react-icons/fi";
-import { useModal } from "../../utils/useModal";
-import { BaseModal } from "../../components/base-modal";
+import { useModal } from "../../../utils/useModal";
+import { BaseModal } from "../../../components/base-modal";
 import { useForm } from "react-hook-form";
-import CustomInput from "../../components/custom-input";
+import CustomInput from "../../../components/custom-input";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import CustomSelect from "../../components/custom-select";
-import CustomSwitch from "../../components/custom-switch";
-import CustomCheckbox from "../../components/custom-checkbox";
-import CustomRadio from "../../components/custom-radio";
-import CustomTextArea from "../../components/custom-textarea";
+import CustomSelect from "../../../components/custom-select";
+import CustomSwitch from "../../../components/custom-switch";
+import CustomCheckbox from "../../../components/custom-checkbox";
+import CustomRadio from "../../../components/custom-radio";
+import CustomTextArea from "../../../components/custom-textarea";
 
 const schema = Yup.object().shape({
   firstname: Yup.string().required(),

@@ -4,12 +4,14 @@ import { memo, ReactElement, useCallback } from "react";
 import AuthLayout from "../components/auth-layout";
 import { NextPageWithLayout } from "./_app";
 import { FcGoogle } from "react-icons/fc";
+import Cookies from "js-cookie";
 
 const Login: NextPageWithLayout = memo(function Login() {
   const router = useRouter();
 
   const onSubmit = useCallback(() => {
-    router.push("/dashboard");
+    Cookies.set("token", "mlmljkmlskjdfmsklfdkjs");
+    router.push("/admin/dashboard");
   }, [router]);
 
   return (
