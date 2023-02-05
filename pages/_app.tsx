@@ -6,6 +6,13 @@ import { ReactElement, ReactNode } from "react";
 import { NextPage } from "next";
 import "nprogress/nprogress.css";
 import dynamic from "next/dynamic";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+// Create a client
+const queryClient = new QueryClient();
 
 const theme = extendTheme({ colors });
 
@@ -28,10 +35,25 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
-    <ChakraProvider theme={theme}>
-      <TopProgressBar />
-      {getLayout(<Component {...pageProps} />)}
-    </ChakraProvider>
+    <QueryClientProvider client={queryClient}>
+      <ChakraProvider theme={theme}>
+        <TopProgressBar />
+        {getLayout(<Component {...pageProps} />)}
+      </ChakraProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+    </QueryClientProvider>
   );
 }
 

@@ -162,8 +162,6 @@ const Dashboard: NextPageWithLayout = () => {
     },
   });
 
-  console.log(errors);
-
   const onSubmit = (data: any) => console.log(JSON.stringify(data));
 
   return (
