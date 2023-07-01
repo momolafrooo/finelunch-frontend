@@ -5,15 +5,16 @@ import { FiPlusSquare, FiSearch } from "react-icons/fi";
 interface Props {
   onSearch?: React.ChangeEventHandler<HTMLInputElement>;
   onClickAdd?: React.MouseEventHandler;
+  title: string;
 }
 
 export default function PageHeader(props: Props) {
-  const { onSearch, onClickAdd } = props;
+  const { onSearch, onClickAdd, title } = props;
   return (
     <Box bg={useColorModeValue("white", "gray.700")} rounded="lg" w="100%" p={4} marginBottom="7">
       <Flex justifyContent="space-between" alignItems="center" mb="4">
         <Heading fontSize="2xl" fontWeight="bold" fontFamily="Nunito">
-          Utilisateurs
+          {title}
         </Heading>
         <Button
           onClick={onClickAdd}

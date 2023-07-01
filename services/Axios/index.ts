@@ -3,10 +3,10 @@ import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 
 export const Axios = axios.create({
-  baseURL: "http://localhost:8080/api/",
+  baseURL: "http://localhost:9000/api/",
   timeout: 1000,
   headers: {
-    Authorization: Cookies.get("token"),
+    Authorization: "Bearer " + Cookies.get("token"),
     Accept: "application/json",
     "Content-Type": "application/json",
   },

@@ -1,36 +1,37 @@
 import { FormControl, FormLabel, Input, Checkbox, Stack, Link, Button, Center, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { memo, ReactElement, useCallback } from "react";
-import AuthLayout from "../components/auth-layout";
-import { NextPageWithLayout } from "./_app";
 import { FcGoogle } from "react-icons/fc";
 import Cookies from "js-cookie";
 import { useMutation } from "react-query";
-import AuthApi from "../services/Endpoints/auth";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import CustomInput from "../components/custom-input";
-import { Login as LoginType } from "../services/Endpoints/auth/types";
-import toast from "../components/toast";
+import { NextPageWithLayout } from "../_app";
+import AuthApi from "../../services/Endpoints/auth";
+import { UserRequest } from "../../services/Endpoints/users/types";
+import CustomInput from "../../components/custom-input";
+import AuthLayout from "../../components/auth-layout";
 
 const schema = Yup.object().shape({
+  firstName: Yup.string().required(),
+  lastName: Yup.string().required(),
+  email: Yup.string().email().required(),
   username: Yup.string().required(),
   password: Yup.string().required(),
+  passwordConfirmation: Yup.string().required(),
 });
 
-const Login: NextPageWithLayout = memo(function Login() {
+const Register: NextPageWithLayout = memo(function Register() {
   const router = useRouter();
 
   const { control, handleSubmit } = useForm<any>({
     resolver: yupResolver(schema),
   });
 
-  const { isLoading, mutate } = useMutation(AuthApi.login, {
+  const { isLoading, mutate } = useMutation(AuthApi.register, {
     onSuccess: ({ data }) => {
-      console.log("response", data);
-      Cookies.set("token", data?.access_token);
-      router.push("/admin/dashboard");
+      router.push("/");
     },
     onError: (error: any) => {
       // toast({ type: "error", message: error.message });
@@ -38,39 +39,40 @@ const Login: NextPageWithLayout = memo(function Login() {
   });
 
   const onSubmit = useCallback(
-    (authBody: LoginType) => {
+    (authBody: UserRequest) => {
       mutate(authBody);
     },
     [mutate]
   );
 
-  const goToRegister = useCallback(() => {
-    router.push("/register");
-  }, [router]);
-
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
+        <CustomInput label={"Prénom"} placeholder={"Prénom"} control={control} name={"firstName"} />
+        <CustomInput label={"Nom"} placeholder={"Nom"} name={"lastName"} control={control} />
+        <CustomInput type="email" label={"Email"} placeholder={"Email"} name={"email"} control={control} />
         <CustomInput
+          type="text"
           label={"Nom d'utilisateur"}
           placeholder={"Nom d'utilisateur"}
-          control={control}
           name={"username"}
+          control={control}
         />
         <CustomInput
-          type={"password"}
+          type="password"
           label={"Mot de passe"}
           placeholder={"Mot de passe"}
           name={"password"}
           control={control}
         />
+        <CustomInput
+          type="password"
+          label={"Confirmation Mot de passe"}
+          placeholder={"Confirmation Mot de passe"}
+          name={"passwordConfirmation"}
+          control={control}
+        />
         <Stack spacing={5}>
-          <Stack direction={{ base: "column", sm: "row" }} align={"start"} justify={"space-between"}>
-            <Checkbox defaultChecked>Rester connecter</Checkbox>
-            <Link href="/forgot-password" color={"blue.400"}>
-              Mot de passe oublié?
-            </Link>
-          </Stack>
           <Button
             type="submit"
             bg={"blue.400"}
@@ -79,12 +81,7 @@ const Login: NextPageWithLayout = memo(function Login() {
               bg: "blue.500",
             }}
           >
-            Connexion
-          </Button>
-          <Button marginTop={2} onClick={goToRegister}>
-            <Center>
-              <Text>Inscription</Text>
-            </Center>
+            S'inscrire
           </Button>
         </Stack>
       </form>
@@ -92,9 +89,9 @@ const Login: NextPageWithLayout = memo(function Login() {
   );
 });
 
-export default Login;
+export default Register;
 
-Login.getLayout = function getLayout(page: ReactElement) {
+Register.getLayout = function getLayout(page: ReactElement) {
   return (
     <AuthLayout title="Finelunch" subtitle="commandez en un clic ✌🏽">
       {page}

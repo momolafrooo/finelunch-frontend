@@ -17,6 +17,7 @@ import CustomSwitch from "../../../components/custom-switch";
 import CustomCheckbox from "../../../components/custom-checkbox";
 import CustomRadio from "../../../components/custom-radio";
 import CustomTextArea from "../../../components/custom-textarea";
+import AddUpdateUser from "../../../components/add-update-users";
 
 const schema = Yup.object().shape({
   firstname: Yup.string().required(),
@@ -166,42 +167,9 @@ const Dashboard: NextPageWithLayout = () => {
 
   return (
     <>
-      <PageHeader title="Dashboard" onClickAdd={onShowModal()} />
+      <PageHeader title="Utilisateurs" onClickAdd={onShowModal()} />
       <Table columns={columns} data={data} />
-      {showModal && (
-        <BaseModal title="Modal" isOpen={showModal} onClose={onCloseModal()}>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <CustomInput label={"First name"} placeholder={"First name"} control={control} name={"firstname"} />
-            <CustomInput label={"Last name"} placeholder={"Last name"} name={"lastname"} control={control} />
-            <CustomInput type="date" label={"Date"} placeholder={"Date"} name={"date"} control={control} />
-            <CustomInput type="number" label={"Age"} placeholder={"Age"} name={"age"} control={control} />
-            <CustomTextArea label={"Description"} placeholder={"Description"} name={"description"} control={control} />
-            <CustomSelect
-              label={"Nationalité"}
-              placeholder={"Nationalité"}
-              name={"nationality"}
-              control={control}
-              options={[
-                { value: "Sénégal", label: "Sénégal" },
-                { value: "Gambie", label: "Gambie" },
-                { value: "Ghana", label: "Ghana" },
-                { value: "France", label: "France" },
-              ]}
-            />
-            <CustomSwitch label={"Notif"} name={"notif"} control={control} />
-            <CustomCheckbox label={"Send email"} name={"send"} control={control} />
-            <CustomRadio label={"Recette"} name={"receipt"} control={control} options={options} />
-            <Stack direction="row" justifyContent="flex-end">
-              <Button variant="ghost" onClick={onCloseModal()} mr={3}>
-                Annuler
-              </Button>
-              <Button colorScheme="blue" type="submit">
-                Enregistrer
-              </Button>
-            </Stack>
-          </form>
-        </BaseModal>
-      )}
+      {showModal && <AddUpdateUser title="Ajouter utilisateur" isOpen={showModal} onClose={onCloseModal()} />}
     </>
   );
 };

@@ -8,7 +8,7 @@ interface LinkItemProps {
 }
 export const LinkItems: Array<LinkItemProps> = [
   { name: "Home", icon: FiHome, link: "/admin/dashboard" },
-  { name: "Trending", icon: FiTrendingUp, link: "/test" },
+  { name: "Utilisateurs", icon: FiTrendingUp, link: "/admin/users" },
   { name: "Explore", icon: FiCompass, link: "/sdfsq" },
   { name: "Favourites", icon: FiStar, link: "/sdfqsfdff" },
   { name: "Settings", icon: FiSettings, link: "/zet" },

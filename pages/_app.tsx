@@ -39,20 +39,20 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       <ChakraProvider theme={theme}>
         <TopProgressBar />
         {getLayout(<Component {...pageProps} />)}
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
       </ChakraProvider>
       <ReactQueryDevtools initialIsOpen={false} />
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
     </QueryClientProvider>
   );
 }
