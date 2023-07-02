@@ -12,7 +12,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 // Create a client
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 const theme = extendTheme({ colors });
 

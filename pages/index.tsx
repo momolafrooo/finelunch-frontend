@@ -27,13 +27,10 @@ const Login: NextPageWithLayout = memo(function Login() {
   });
 
   const { isLoading, mutate } = useMutation(AuthApi.login, {
-    onSuccess: ({ data }) => {
+    onSuccess: (data) => {
       console.log("response", data);
       Cookies.set("token", data?.access_token);
       router.push("/admin/dashboard");
-    },
-    onError: (error: any) => {
-      // toast({ type: "error", message: error.message });
     },
   });
 

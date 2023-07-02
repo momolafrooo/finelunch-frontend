@@ -1,26 +1,27 @@
+import { Paginated } from "..";
 import { HttpClient } from "../../HttpClient";
 import { Role } from "./types";
 
 export const ROLE_KEY = "role";
 
 export default class RoleApi {
-  static async findAll(): Promise<Array<Role>> {
-    return HttpClient.get("/api/roles");
+  static async findAll(): Promise<Paginated<Role>> {
+    return HttpClient.get("/roles");
   }
 
   static findOneById(id: number): Promise<Role> {
-    return HttpClient.get(`/api/roles/${id}`);
+    return HttpClient.get(`/roles/${id}`);
   }
 
   static save(role: Role): Promise<Role> {
-    return HttpClient.post(`/api/roles`, role);
+    return HttpClient.post(`/roles`, role);
   }
 
-  static updateById(role: Role, id: number): Promise<Role> {
-    return HttpClient.put(`/api/roles/${id}`, role);
+  static update(role: Role): Promise<Role> {
+    return HttpClient.put(`/roles/${role?._id}`, role);
   }
 
-  static deleteById(id: number): Promise<Role> {
-    return HttpClient.delete(`/api/roles/${id}`);
+  static delete(role: Role): Promise<Role> {
+    return HttpClient.delete(`/roles/${role?._id}`);
   }
 }

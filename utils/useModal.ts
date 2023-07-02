@@ -12,13 +12,10 @@ export function useModal<T>(id?: number): UseModal<T> {
     []
   );
 
-  const onCloseModal = useCallback(
-    (item?: T) => () => {
-      setShowModal(false);
-      item && setSelectedItem(item);
-    },
-    []
-  );
+  const onCloseModal = useCallback(() => {
+    setShowModal(false);
+    setSelectedItem(undefined);
+  }, []);
 
   return {
     showModal,
@@ -31,6 +28,6 @@ export function useModal<T>(id?: number): UseModal<T> {
 export interface UseModal<T> {
   showModal: boolean;
   onShowModal: (item?: T) => () => void;
-  onCloseModal: (item?: T) => () => void;
+  onCloseModal: () => void;
   selectedItem?: T;
 }
