@@ -6,10 +6,12 @@ import Pagination from "../pagination";
 interface Props {
   columns: any[];
   data: object[];
+  total: number;
+  onPageChange: (selectedItem: { selected: number }) => void;
 }
 
 export default function Table(props: Props) {
-  const { columns, data } = props;
+  const { columns, data, onPageChange, total } = props;
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
     {
@@ -49,7 +51,7 @@ export default function Table(props: Props) {
           </Tbody>
         </ChakraTable>
       </TableContainer>
-      <Pagination onPageChange={() => null} size={100} />
+      <Pagination onPageChange={onPageChange} size={total} />
     </>
   );
 }

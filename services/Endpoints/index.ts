@@ -1,4 +1,5 @@
 import RoleApi from "./role";
+
 export interface Paginated<T> {
   docs: T[];
   totalDocs: number;
@@ -11,4 +12,12 @@ export interface Paginated<T> {
   prevPage: number;
   nextPage: number;
 }
+
+export interface PaginationQuery {
+  limit: number;
+  page: number;
+  search: string;
+  sort: string;
+}
+
 export { RoleApi };

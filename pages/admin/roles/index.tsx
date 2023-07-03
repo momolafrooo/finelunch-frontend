@@ -16,9 +16,21 @@ import { useMutation, useQuery } from "react-query";
 import { RoleApi } from "../../../services/Endpoints";
 import { Role } from "../../../services/Endpoints/role/types";
 import DeleteModal from "../../../components/delete-modal";
+import usePagination from "../../../utils/usePagination";
 
 const Roles: NextPageWithLayout = () => {
-  const { isLoading: isLoadingList, isError, data, error } = useQuery(["ROLE"], RoleApi.findAll, {});
+  const { setPage, setSearch, ...paginationRequest } = usePagination();
+  const {
+    isLoading: isLoadingList,
+    isError,
+    data,
+    error,
+  } = useQuery({
+    queryKey: ["ROLE", paginationRequest],
+    queryFn: () => RoleApi.findAll(paginationRequest),
+    keepPreviousData: true,
+    staleTime: 5000,
+  });
 
   const { showModal, onCloseModal, onShowModal } = useModal<Role>();
   const {
@@ -38,13 +50,20 @@ const Roles: NextPageWithLayout = () => {
   const { isLoading: isLoadingDelete, mutate } = useMutation(RoleApi.delete, {
     onSuccess: () => {
       onCloseDelete();
-      queryClient.invalidateQueries({ queryKey: ["ROLE"] });
+      queryClient.invalidateQueries({ queryKey: ["ROLE", paginationRequest] });
     },
   });
 
   const onDelete = useCallback(() => {
     selectedDelete && mutate(selectedDelete);
   }, [mutate, selectedDelete]);
+
+  const onPageChange = useCallback(
+    ({ selected }: any) => {
+      setPage(selected + 1);
+    },
+    [setPage]
+  );
 
   const columns = useMemo(
     () => [
@@ -86,13 +105,13 @@ const Roles: NextPageWithLayout = () => {
         },
       },
     ],
-    []
+    [onOpenDelete, onOpenUpdate]
   );
 
   return (
     <>
-      <PageHeader title="Roles" onClickAdd={onShowModal()} />
-      <Table columns={columns} data={data?.docs ?? []} />
+      <PageHeader title="Roles" onClickAdd={onShowModal()} onSearch={setSearch} />
+      <Table onPageChange={onPageChange} columns={columns} data={data?.docs ?? []} total={data?.totalPages!} />
       {showModal && <AddUpdateRole title="Ajouter role" isOpen={showModal} onClose={onCloseModal} />}
       {openUpdate && (
         <AddUpdateRole title="Modifier role" isOpen={openUpdate} role={selectedUpdate} onClose={onCloseUpdate} />

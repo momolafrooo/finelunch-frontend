@@ -1,8 +1,10 @@
 import { Axios } from "../Axios";
 
 export class HttpClient {
-  static get(url: string): Promise<any> {
-    return Axios.get(url);
+  static get(url: string, params?: any): Promise<any> {
+    return Axios.get(url, {
+      params,
+    });
   }
 
   static post(url: string, body: any): Promise<any> {

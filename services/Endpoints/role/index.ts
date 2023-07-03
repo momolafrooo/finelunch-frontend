@@ -1,12 +1,12 @@
-import { Paginated } from "..";
+import { Paginated, PaginationQuery } from "..";
 import { HttpClient } from "../../HttpClient";
 import { Role } from "./types";
 
 export const ROLE_KEY = "role";
 
 export default class RoleApi {
-  static async findAll(): Promise<Paginated<Role>> {
-    return HttpClient.get("/roles");
+  static async findAll(query: PaginationQuery): Promise<Paginated<Role>> {
+    return HttpClient.get("/roles", query);
   }
 
   static findOneById(id: number): Promise<Role> {
