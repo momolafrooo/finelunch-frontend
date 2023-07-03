@@ -12,7 +12,7 @@ interface Props {
   control?: any;
 }
 
-interface Option {
+export interface Option {
   value: string;
   label: string;
 }

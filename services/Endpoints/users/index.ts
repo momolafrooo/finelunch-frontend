@@ -1,26 +1,27 @@
+import { Paginated, PaginationQuery } from "..";
 import { HttpClient } from "../../HttpClient";
-import { User, UserRequest } from "./types";
+import { User } from "./types";
 
-export const ROLE_KEY = "user";
+export const USER_KEY = "user";
 
 export default class UserApi {
-  static async findAll(): Promise<Array<User>> {
-    return HttpClient.get("/users");
+  static async findAll(query: PaginationQuery): Promise<Paginated<User>> {
+    return HttpClient.get("/users", query);
   }
 
   static findOneById(id: number): Promise<User> {
     return HttpClient.get(`/users/${id}`);
   }
 
-  static save(user: UserRequest): Promise<User> {
+  static save(user: User): Promise<User> {
     return HttpClient.post(`/users`, user);
   }
 
-  static updateById(user: UserRequest, id: number): Promise<User> {
-    return HttpClient.put(`/users/${id}`, user);
+  static update(user: User): Promise<User> {
+    return HttpClient.put(`/users/${user?._id}`, user);
   }
 
-  static deleteById(id: number): Promise<User> {
-    return HttpClient.delete(`/users/${id}`);
+  static delete(user: User): Promise<User> {
+    return HttpClient.delete(`/users/${user?._id}`);
   }
 }

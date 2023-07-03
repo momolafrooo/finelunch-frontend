@@ -5,26 +5,43 @@ import { Button, Stack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import UserApi from "../../services/Endpoints/users";
-import { UserRequest } from "../../services/Endpoints/users/types";
+import { User, UserRequest } from "../../services/Endpoints/users/types";
+import CustomSelect, { Option } from "../custom-select";
+import { RoleApi } from "../../services/Endpoints";
+import usePagination from "../../utils/usePagination";
+import { queryClient } from "../../pages/_app";
 
 const schema = Yup.object().shape({
   firstName: Yup.string().required(),
   lastName: Yup.string().required(),
   email: Yup.string().email().required(),
   username: Yup.string().required(),
-  password: Yup.string().required(),
-  passwordConfirmation: Yup.string().required(),
+  roleId: Yup.string().required(),
 });
 
 interface Props {
   title: string;
   isOpen: boolean;
+  user?: User;
   onClose: () => void;
 }
 
-const AddUpdateUser = ({ isOpen, onClose, title }: Props) => {
+const AddUpdateUser = ({ isOpen, onClose, title, user }: Props) => {
+  const { setPage, setSearch, ...paginationRequest } = usePagination();
+  const {
+    isLoading: isLoadingList,
+    isError,
+    data,
+    error,
+  } = useQuery({
+    queryKey: ["ROLE", paginationRequest],
+    queryFn: () => RoleApi.findAll(paginationRequest),
+    keepPreviousData: true,
+    staleTime: 5000,
+  });
+
   const {
     control,
     register,
@@ -32,15 +49,23 @@ const AddUpdateUser = ({ isOpen, onClose, title }: Props) => {
     formState: { errors },
   } = useForm<any>({
     resolver: yupResolver(schema),
+    defaultValues: { ...user, roleId: user?.role?.name },
   });
 
-  const { isLoading, mutate } = useMutation(UserApi.save);
+  const { isLoading, mutate } = useMutation(user ? UserApi.update : UserApi.save, {
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["USER", paginationRequest] });
+      onClose();
+    },
+  });
 
   const onSubmit = useCallback(
-    (body: UserRequest) => {
-      mutate(body);
+    (body: User) => {
+      user
+        ? mutate({ ...user, ...body, roleId: body?.roleId === user.role.name ? user.role._id : body?.roleId })
+        : mutate(body);
     },
-    [mutate]
+    [mutate, user]
   );
 
   return (
@@ -56,19 +81,12 @@ const AddUpdateUser = ({ isOpen, onClose, title }: Props) => {
           name={"username"}
           control={control}
         />
-        <CustomInput
-          type="password"
-          label={"Mot de passe"}
-          placeholder={"Mot de passe"}
-          name={"password"}
+        <CustomSelect
+          label={"Role"}
+          placeholder={"Role"}
+          name={"roleId"}
           control={control}
-        />
-        <CustomInput
-          type="password"
-          label={"Confirmation Mot de passe"}
-          placeholder={"Confirmation Mot de passe"}
-          name={"passwordConfirmation"}
-          control={control}
+          options={data?.docs?.map((role) => ({ label: role.name, value: role._id })) as Option[]}
         />
 
         <Stack direction="row" justifyContent="flex-end">

@@ -1,9 +1,13 @@
+import { Role } from "../role/types";
+
 export interface User {
-  id?: string;
+  _id?: string;
   firstName: string;
   lastName: string;
   email: string;
   username: string;
+  role: Role;
+  roleId: string;
 }
 
 export interface UserRequest extends User {
